@@ -33,17 +33,35 @@ namespace WebApplication1.Service
             return _eventsRepository.FetchEventById(eventID);
         }
 
-        public void UpdateEvent(int eventID, Event newEvent)
+        public void UpdateEvent(int eventID, EventDTO body)
         {
-            _eventsRepository.UpdateEvent(eventID, newEvent);
+            var existingEvent = _eventsRepository.FetchEventById(eventID);
+
+            if (!string.IsNullOrEmpty(body.EventName))
+                existingEvent.Name = body.EventName;
+
+            if (body.StartDate.HasValue)
+                existingEvent.StartDate = body.StartDate.Value;
+
+            if (body.EndDate.HasValue)
+                existingEvent.EndDate = body.EndDate.Value;
+
+            if (body.MaxRegistrations.HasValue)
+                existingEvent.MaxRegistrations = body.MaxRegistrations.Value;
+
+            if (!string.IsNullOrEmpty(body.Location))
+                existingEvent.Location = body.Location;
+
+            _eventsRepository.UpdateEvent(existingEvent);
         }
+
 
         public void DeleteEvent(int eventID)
         {
             _eventsRepository.DeleteEvent(eventID);
         }
 
-        public List<Event> RetrieveEventsByDates(DateTime StartDate, DateTime EndDate)
+        public List<Event> RetrieveEventsByDates(DateTime? StartDate, DateTime? EndDate)
         {
             return _eventsRepository.FetchEventsByDates(StartDate, EndDate);
         }
@@ -76,5 +94,22 @@ namespace WebApplication1.Service
             }
         }
 
+        public List<User> RetrieveUsers()
+        {
+            return _eventsRepository.FetchUsers();
+        }
+
+        public void UpdateUser(int userID, UserDTO body)
+        {
+            var existingUser = _eventsRepository.FetchUserById(userID);
+
+            if (!string.IsNullOrEmpty(body.Name))
+                existingUser.Name = (string)body.Name;
+
+            if (body.dob.HasValue)
+                existingUser.DateOfBirth = DateOnly.FromDateTime(body.dob.Value);
+
+            _eventsRepository.UpdateUser(existingUser);
+        }
     }
 }

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body onload="fetchTrivia()">
+    <h1>Event Management System</h1>
+
+    <div id="action"></div>
+
+    <br><br>
+
+    <button onclick="CreateEvent()">Create Event</button>
+    <button onclick="GetEvent()">Get Event Details</button>
+    <button onclick="GetUsers()">View All Participants</button>
+    <br>
+    <div>
+        <input type="datetime-local" id="startDateS">
+        <input type="datetime-local" id="endDateS">
+        <button onclick="GetSchedule()">Filter Events</button>
+        <p>You may leave 1 or both fields clear, leaving both empty will show all existing events</p>
+        <div id="table-wrapper"><table id="schedule"></table></div>
+    </div>
+
+    <br>
+
+    <div id="trivia"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 ﻿using DATA.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -7,6 +8,7 @@ using WebApplication1.Service;
 
 namespace WebApplication1.Controllers
 {
+    [EnableCors()]
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
@@ -27,14 +29,14 @@ namespace WebApplication1.Controllers
             try
             {
                 var newEvent = new Event();
-                newEvent.Name = body.EventName;
-                newEvent.StartDate = body.StartDate;
-                newEvent.EndDate = body.EndDate;
-                newEvent.MaxRegistrations = body.MaxRegistrations;
-                newEvent.Location = body.Location;
+                newEvent.Name = (String)body.EventName;
+                newEvent.StartDate = (DateTime)body.StartDate;
+                newEvent.EndDate = (DateTime)body.EndDate;
+                newEvent.MaxRegistrations = (int)body.MaxRegistrations;
+                newEvent.Location = (String)body.Location;
 
                 _eventsService.CreateEvent(newEvent);
-                return Ok("Event created successfully");
+                return Ok(new { message = "Event created successfully" });
             }
             catch (Exception e)
             {
@@ -63,7 +65,7 @@ namespace WebApplication1.Controllers
             try
             {
                 _eventsService.RegisterUserToEvent(eventID, newUser);
-                return Ok("User registered successfully for the event"); 
+                return Ok(new { message = "User registered successfully for the event" }); 
             }
             catch (Exception e)
             {
@@ -91,15 +93,8 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                var newEvent = new Event();
-                newEvent.Name = body.EventName;
-                newEvent.StartDate = body.StartDate;
-                newEvent.EndDate = body.EndDate;
-                newEvent.MaxRegistrations = body.MaxRegistrations;
-                newEvent.Location = body.Location;
-
-                _eventsService.UpdateEvent(eventID, newEvent);
-                return Ok("Event updated successfully");
+                _eventsService.UpdateEvent(eventID, body);
+                return Ok(new { message = "Event updated successfully" });
             }
             catch (Exception e)
             {
@@ -114,7 +109,7 @@ namespace WebApplication1.Controllers
             try
             {
                 _eventsService.DeleteEvent(eventID);
-                return Ok("Event deleted successfully");
+                return Ok(new { message = "Event deleted successfully" });
             }
             catch (Exception e)
             {
@@ -124,7 +119,7 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         [Route("schedule")]
-        public ActionResult<Event> GetSchedule([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        public ActionResult<Event> GetSchedule([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
             try
             {
@@ -137,7 +132,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        [Route("event/{eventID}/weather")]
+        [Route("{eventID}/weather")]
         public ActionResult GetEventWeather(int eventID)
         {
             try
@@ -161,5 +156,33 @@ namespace WebApplication1.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("users")]
+        public ActionResult<List<User>> GetUsers()
+        {
+            try
+            {
+                return Ok(_eventsService.RetrieveUsers());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("updateuser/{userID}")]
+        public ActionResult UpdateUser(int userID, [FromBody] UserDTO body)
+        {
+            try
+            {
+                _eventsService.UpdateUser(userID, body);
+                return Ok(new { message = "User updated successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error updating user: " + e.Message);
+            }
+        }
     }
 }

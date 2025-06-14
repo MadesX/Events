@@ -1,0 +1,170 @@
+﻿body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f8fa;
+    color: #222;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 32px;
+    margin-bottom: 50px;
+    color: #333;
+}
+
+h3 {
+    font-weight: 600;
+    color: #333;
+    margin-top: 0;
+}
+
+div p {
+    margin-top: 0;
+    margin-left: 5px;
+    color: dimgray;
+    font-size: 14px;
+}
+
+#action, #trivia {
+    border: 1.5px solid #bbb;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 24px 20px; 
+    margin-top: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+#trivia {
+    width: 25%;
+    text-align:center;
+    margin:auto;
+}
+
+#addEvent, #getEvent, #action{
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 24px;
+    margin: 16px auto;
+    max-width: 700px;
+}
+
+#table-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+input, button {
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    margin: 6px 8px 6px 0;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+    input:focus {
+        border-color: #7b9acc;
+    }
+
+label {
+    display: inline-block;
+    width: 140px;
+    margin-bottom: 8px;
+}
+
+button {
+    background: #4f8cff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+    button:hover {
+        background: #356ae6;
+    }
+
+#schedule, #eventUsers {
+    width: auto;
+    max-width: 700px;
+    margin: 18px 0;
+    border-collapse: collapse;
+    background: #fff;
+    margin-right: 10px;
+}
+
+    #schedule th, #eventUsers th,
+    #schedule td, #eventUsers td {
+        text-align: center;
+        padding: 10px 8px;
+    }
+
+
+    #schedule th, #eventUsers th {
+        background: #f0f4fa;
+        color: #333;
+        font-weight: 600;
+        padding: 10px 8px;
+        border-bottom: 2px solid #e0e7ef;
+    }
+
+    #schedule td, #eventUsers td {
+        padding: 10px 8px;
+        border-bottom: 1px solid #f0f4fa;
+        text-align: left;
+    }
+
+    #schedule tr {
+        height: 85px;
+    }
+
+    #schedule tr:first-child {
+        height: 50px;
+    }
+
+    #schedule th, #schedule td {
+        text-align: center;
+        padding: 10px 8px;
+    }
+
+    #schedule td {
+        min-width: 100px;
+    }
+
+    #schedule td:first-child {
+        min-width: 62px;
+    }
+
+    #schedule td:nth-child(5) {
+        min-width: 80px;
+    }
+
+    #schedule tr:last-child td, #eventUsers tr:last-child td {
+        border-bottom: none;
+    }
+
+.buttonContainer, .buttonContainer2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 110px;
+}
+
+.buttonContainer2 {
+    margin-top: 96px;
+}
+
+    .buttonContainer button, .buttonContainer2 button {
+        min-width: 120px;
+        margin-bottom: 52px;
+        margin-top: 0;
+        font-size: 15px;
+        margin-right: 0;
+    }
+

@@ -21,6 +21,11 @@ namespace WebApplication1
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+            {
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            }));
+
             //add memory cache
             builder.Services.AddMemoryCache();
 
@@ -37,6 +42,8 @@ namespace WebApplication1
 
 
             app.MapControllers();
+
+            app.UseCors("corsapp");
 
             app.Run();
         }

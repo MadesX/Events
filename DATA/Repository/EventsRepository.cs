@@ -1,10 +1,12 @@
 ﻿using DATA.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DATA.Repository
 {
@@ -53,24 +55,9 @@ namespace DATA.Repository
             return existingEvent;
         }
 
-        public void UpdateEvent(int eventID, Event newEvent)
+        public void UpdateEvent(Event updatedEvent)
         {
-            var existingEvent = db.Events.SingleOrDefault(e => e.Id == eventID);
-
-            if (existingEvent != null)
-            {
-                existingEvent.Name = newEvent.Name;
-                existingEvent.StartDate = newEvent.StartDate;
-                existingEvent.EndDate = newEvent.EndDate;
-                existingEvent.MaxRegistrations = newEvent.MaxRegistrations;
-                existingEvent.Location = newEvent.Location;
-
-                db.SaveChanges();
-            } 
-            else
-            {
-                throw new Exception("Event not found");
-            }
+            db.SaveChanges();
         }
 
         public void DeleteEvent(int eventID)
@@ -93,9 +80,41 @@ namespace DATA.Repository
             }
         }
 
-        public dynamic FetchEventsByDates(DateTime StartDate, DateTime EndDate)
+        public dynamic FetchEventsByDates(DateTime? startDate, DateTime? endDate)
         {
-            return db.Events.Where(x => x.StartDate >= StartDate && x.EndDate <= EndDate).ToList();
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                return db.Events.Where(x => x.StartDate >= startDate && x.EndDate <= endDate).ToList();
+            }
+            else if (startDate.HasValue && !endDate.HasValue)
+            {
+                return db.Events.Where(x => x.StartDate >= startDate).ToList();
+            }
+            else if (!startDate.HasValue && endDate.HasValue)
+            {
+                return db.Events.Where(x => x.EndDate <= endDate).ToList();
+            }
+            return db.Events.ToList();
+        }
+
+        public dynamic FetchUsers()
+        {
+            return db.Users.ToList();
+        }
+
+        public dynamic FetchUserById(int userID)
+        {
+            var existingUser = db.Users.SingleOrDefault(x => x.Id == userID);
+            if (existingUser == null)
+            {
+                throw new Exception("User not found");
+            }
+            return existingUser;
+        }
+
+        public void UpdateUser(User updatedUser)
+        {
+            db.SaveChanges();
         }
     }
 }
