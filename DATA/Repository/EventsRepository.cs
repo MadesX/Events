@@ -116,5 +116,10 @@ namespace DATA.Repository
         {
             db.SaveChanges();
         }
+
+        public dynamic FetchUserEvents(int userID)
+        {
+            return db.EventUsers.Where(x => x.UserRef == userID).Include(x => x.EventRefNavigation).Select(x => x.EventRefNavigation).ToList();
+        }
     }
 }

@@ -712,6 +712,11 @@ function CreateUserTable(data) {
         button1.innerHTML = "Update User";
         button1.onclick = () => { UpdateUser(data[i].id); };
         buttonContainer1.appendChild(button1);
+
+        let button2 = document.createElement("button");
+        button2.innerHTML = "Show My Events";
+        button2.onclick = () => { GetUserEvents(data[i].id); };
+        buttonContainer2.appendChild(button2);
     }
 }
 
@@ -793,6 +798,67 @@ function UpdateUserDB() {
         .then(data => {
             GetUsers();
             alert(data.message);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+function GetUserEvents(userId) {
+    const actionDiv = document.getElementById('action');
+    actionDiv.innerHTML = '';
+
+    let title = document.createElement('h3');
+    title.innerHTML = "User " + userId + " Registered To Events ";
+    actionDiv.appendChild(title);
+
+    let table = document.createElement('table');
+    table.id = 'eventUsers';
+    actionDiv.appendChild(table);
+
+    const url = 'http://localhost:5116/api/Events/' + userId + '/registered';
+
+    let tr = document.createElement("tr");
+    let headers = ["Event ID", "Event Name", "Start Date", "End Date", "Max Registration", "Location"];
+    headers.forEach(header => {
+        let th = document.createElement("th");
+        th.innerHTML = header;
+        tr.appendChild(th);
+    });
+    table.appendChild(tr);
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            for (let i in data) {
+                let tr = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                let td4 = document.createElement("td");
+                let td5 = document.createElement("td");
+                let td6 = document.createElement("td");
+
+                td1.innerHTML = data[i].id;
+                td2.innerHTML = data[i].name;
+                td3.innerHTML = data[i].startDate;
+                td4.innerHTML = data[i].endDate;
+                td5.innerHTML = data[i].maxRegistrations;
+                td6.innerHTML = data[i].location;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
+                table.appendChild(tr);
+            }
         })
         .catch(error => {
             console.log(error);

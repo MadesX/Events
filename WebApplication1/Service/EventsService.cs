@@ -111,5 +111,10 @@ namespace WebApplication1.Service
 
             _eventsRepository.UpdateUser(existingUser);
         }
+
+        public List<Event> RetrieveUserEvents(int userID)
+        {
+            return _eventsRepository.FetchUserEvents(userID);
+        }
     }
 }

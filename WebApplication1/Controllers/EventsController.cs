@@ -184,5 +184,19 @@ namespace WebApplication1.Controllers
                 return BadRequest("Error updating user: " + e.Message);
             }
         }
+
+        [HttpGet]
+        [Route("{userID}/registered")]
+        public ActionResult<Event> GetUserEvents(int userID)
+        {
+            try
+            {
+                return Ok(_eventsService.RetrieveUserEvents(userID));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
