@@ -591,6 +591,11 @@ function CreateEventTable(data) {
         button5.onclick = () => {
             const actionDiv = document.getElementById('action');
             actionDiv.innerHTML = '';
+
+            let title = document.createElement('h3');
+            title.innerHTML = "Showing Location Of Event " + data[i].id + " On Map";
+            actionDiv.appendChild(title);
+
             loadMap(data[i].location);
         };
         buttonContainer5.appendChild(button5);
@@ -642,7 +647,7 @@ function loadMap(location) {
 }
 
 function GetUsers() {
-    const url = 'http://localhost:5116/api/Events/users';
+    const url = 'http://localhost:5116/api/Users';
 
     fetch(url)
         .then(response => {
@@ -787,7 +792,7 @@ function UpdateUserDB() {
         body: JSON.stringify(userData)
     };
 
-    const url = 'http://localhost:5116/api/Events/updateuser/' + userId;
+    const url = 'http://localhost:5116/api/Users/updateuser/' + userId;
     fetch(url, options)
         .then(response => {
             if (!response.ok) {
@@ -816,7 +821,7 @@ function GetUserEvents(userId) {
     table.id = 'eventUsers';
     actionDiv.appendChild(table);
 
-    const url = 'http://localhost:5116/api/Events/' + userId + '/registered';
+    const url = 'http://localhost:5116/api/Users/events/' + userId;
 
     let tr = document.createElement("tr");
     let headers = ["Event ID", "Event Name", "Start Date", "End Date", "Max Registration", "Location"];

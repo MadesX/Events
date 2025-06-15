@@ -55,7 +55,6 @@ namespace WebApplication1.Service
             _eventsRepository.UpdateEvent(existingEvent);
         }
 
-
         public void DeleteEvent(int eventID)
         {
             _eventsRepository.DeleteEvent(eventID);
@@ -92,29 +91,6 @@ namespace WebApplication1.Service
                     return new EventWeatherDTO { Location = location, Weather = weatherText };
                 }
             }
-        }
-
-        public List<User> RetrieveUsers()
-        {
-            return _eventsRepository.FetchUsers();
-        }
-
-        public void UpdateUser(int userID, UserDTO body)
-        {
-            var existingUser = _eventsRepository.FetchUserById(userID);
-
-            if (!string.IsNullOrEmpty(body.Name))
-                existingUser.Name = (string)body.Name;
-
-            if (body.dob.HasValue)
-                existingUser.DateOfBirth = DateOnly.FromDateTime(body.dob.Value);
-
-            _eventsRepository.UpdateUser(existingUser);
-        }
-
-        public List<Event> RetrieveUserEvents(int userID)
-        {
-            return _eventsRepository.FetchUserEvents(userID);
         }
     }
 }

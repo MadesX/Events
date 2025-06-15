@@ -12,9 +12,13 @@ namespace WebApplication1
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<EventsController>();
             builder.Services.AddScoped<EventsService>();
             builder.Services.AddScoped<EventsRepository>();
-            builder.Services.AddScoped<EventsController>();
+
+            builder.Services.AddScoped<UsersController>();
+            builder.Services.AddScoped<UsersService>();
+            builder.Services.AddScoped<UsersRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -20,7 +20,6 @@ namespace WebApplication1.Controllers
         {
             _eventsService = eventsService;
             _memoryCache = memoryCache;
-
         }
 
         [HttpPost]
@@ -153,49 +152,6 @@ namespace WebApplication1.Controllers
             catch (Exception ex)
             {
                 return BadRequest("Error: " + ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("users")]
-        public ActionResult<List<User>> GetUsers()
-        {
-            try
-            {
-                return Ok(_eventsService.RetrieveUsers());
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpPut]
-        [Route("updateuser/{userID}")]
-        public ActionResult UpdateUser(int userID, [FromBody] UserDTO body)
-        {
-            try
-            {
-                _eventsService.UpdateUser(userID, body);
-                return Ok(new { message = "User updated successfully" });
-            }
-            catch (Exception e)
-            {
-                return BadRequest("Error updating user: " + e.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("{userID}/registered")]
-        public ActionResult<Event> GetUserEvents(int userID)
-        {
-            try
-            {
-                return Ok(_eventsService.RetrieveUserEvents(userID));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
             }
         }
     }
